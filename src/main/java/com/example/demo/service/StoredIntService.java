@@ -3,9 +3,9 @@ package com.example.demo.service;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Random;
 
 @Service
@@ -17,15 +17,17 @@ public class StoredIntService {
         File file = new File(FILE_NAME);
         try {
             if (file.exists()) {
-                String content = Files.readString(Path.of(FILE_NAME));
+                String content = Files.readString(file.toPath());
                 return Integer.parseInt(content.trim());
             } else {
-                int randomInt = new Random().nextInt(100000);
-                Files.writeString(Path.of(FILE_NAME), String.valueOf(randomInt));
-                return randomInt;
+                int randomNumber = new Random().nextInt(1000); // entre 0 et 999
+                FileWriter writer = new FileWriter(file);
+                writer.write(String.valueOf(randomNumber));
+                writer.close();
+                return randomNumber;
             }
         } catch (IOException e) {
-            throw new RuntimeException("Erreur d'accès au fichier", e);
+            throw new RuntimeException("Erreur de lecture/écriture du fichier", e);
         }
     }
 }
