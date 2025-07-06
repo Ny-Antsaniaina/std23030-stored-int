@@ -11,7 +11,7 @@ import java.util.Random;
 @Service
 public class StoredIntService {
 
-    private static final String FILE_NAME = "stored-int.txt";
+    private static final String FILE_NAME = "/tmp/stored-int.txt";
 
     public int getStoredInt() {
         File file = new File(FILE_NAME);
@@ -20,7 +20,7 @@ public class StoredIntService {
                 String content = Files.readString(file.toPath());
                 return Integer.parseInt(content.trim());
             } else {
-                int randomNumber = new Random().nextInt(1000); // entre 0 et 999
+                int randomNumber = new Random().nextInt(1000);
                 FileWriter writer = new FileWriter(file);
                 writer.write(String.valueOf(randomNumber));
                 writer.close();
